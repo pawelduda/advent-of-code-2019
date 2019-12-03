@@ -9,7 +9,12 @@ class WiresIntersectionDistance
   def call
     generate_paths
     intersections = (@wires_paths[0][1..-1] & @wires_paths[1]) # Ignore the starting point
-    intersections.map { |coords| distance_from_start(coords) }.min
+
+    # Part 1
+    # intersections.map { |coords| distance_from_start(coords) }.min
+
+    # Part 2
+    intersections.map { |coords| combined_steps_from_start(coords) }.min
   end
 
   private
@@ -52,10 +57,13 @@ class WiresIntersectionDistance
   def distance_from_start(coords)
     coords.map(&:abs).reduce(:+)
   end
+
+  def combined_steps_from_start(coords)
+    @wires_paths[0].index(coords) + @wires_paths[1].index(coords)
+  end
 end
 
 wires_data = File.open('day_3_input.txt').readlines.map(&:chomp)
                  .map { |line| line.split(',') }
 
 p WiresIntersectionDistance.new(wires_data[0], wires_data[1]).call
-
