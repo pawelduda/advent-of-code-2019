@@ -23,15 +23,14 @@ class PasswordCombinationsCounter
     end
   end
 
-  def two_adjacent_equal_digits?(password)
-    (0..4).detect do |position|
-      password[position] == password[position + 1]
-    end
+  def two_adjacent_equal_digits?(digits)
+    digits.chunk_while { |i, j| i == j }
+          .any? { |group| [2].include?(group.size) }
   end
 
-  def digits_dont_decrease?(password)
-    (1..5).all? do |position|
-      password[position - 1] <= password[position]
+  def digits_dont_decrease?(digits)
+    (1..5).all? do |i|
+      digits[i - 1] <= digits[i]
     end
   end
 end
